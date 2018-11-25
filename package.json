@@ -1,0 +1,15 @@
+{
+  "name": "model-tracker-server",
+  "version": "1.0.0",
+  "description": "Server for the Model Tracker project.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesse Kuntz",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "plotly": "^1.0.6"
+  }
+}
