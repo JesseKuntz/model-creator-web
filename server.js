@@ -11,10 +11,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
-	res.send("This is the default route.");
-});
-
 app.post('/', function (req, res) {
   console.log(req.body);
   createGraph(req.body);
@@ -25,29 +21,31 @@ app.listen(3000, function() {
 });
 
 function createGraph(data) {
-  var trace1 = {
+  var trace = {
     x: data.x,
     y: data.y,
     z: data.z,
-    mode: "markers",
+    mode: "lines+markers",
     marker: {
+      color: "#851726",
       size: 12,
-      line: {
-        color: "rgba(217, 217, 217, 0.14)",
-        width: 0.5
-      },
+      symbol: "circle",
       opacity: 0.8
+    },
+    line: {
+      color: "#851726",
+      width: 3
     },
     type: "scatter3d"
   };
 
-  var data = [trace1];
+  var data = [trace];
 
   var layout = {margin: {
       l: 0,
       r: 0,
       b: 0,
-      t: 0
+      t: 65
   }};
 
   var graphOptions = {layout: layout, filename: "simple-3d-scatter", fileopt: "overwrite"};
