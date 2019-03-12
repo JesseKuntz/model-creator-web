@@ -34,16 +34,12 @@ function createGraph(data) {
     // points.z.push(zSplice);
   }
 
-  console.log(points)
-
   // Get rid of the zeros on all but the first trace
   for (let i = 1; i < points.x.length; i++) {
     points.x[i].splice(0, 1);
     points.y[i].splice(0, 1);
     points.z[i].splice(0, 1);
   }
-
-  console.log(points)
 
   for (let i = 0; i < points.x.length; i++) {
     let color = '#'+Math.random().toString(16).substr(-6);
