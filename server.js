@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var plotly = require('plotly')("jessekuntz", "Pyok8WctFMJyeNFNnyd9");
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 
 app.use(express.static('public'));
 
@@ -21,25 +21,52 @@ app.listen(3000, function() {
 });
 
 function createGraph(data) {
-  var trace = {
-    x: data.x,
-    y: data.y,
-    z: data.z,
-    mode: "lines+markers",
-    marker: {
-      color: "#851726",
-      size: 12,
-      symbol: "circle",
-      opacity: 0.8
-    },
-    line: {
-      color: "#851726",
-      width: 3
-    },
-    type: "scatter3d"
-  };
+  var points = {x: [], y: [], z: []};
+  var traces = [];
 
-  var data = [trace];
+  while(data.x.length > 1) {
+    let xSplice = data.x.splice(0, data.x.indexOf(0, 1));
+    let ySplice = data.y.splice(0, data.y.indexOf(0, 1));
+    let zSplice = data.z.splice(0, data.z.indexOf(0, 1));
+    points.x.push(xSplice);
+    points.y.push(ySplice);
+    points.z.push(Array(xSplice.length).fill(0));
+    // points.z.push(zSplice);
+  }
+
+  console.log(points)
+
+  // Get rid of the zeros on all but the first trace
+  for (let i = 1; i < points.x.length; i++) {
+    points.x[i].splice(0, 1);
+    points.y[i].splice(0, 1);
+    points.z[i].splice(0, 1);
+  }
+
+  console.log(points)
+
+  for (let i = 0; i < points.x.length; i++) {
+    let color = '#'+Math.random().toString(16).substr(-6);
+    traces.push(
+      {
+        x: points.x[i],
+        y: points.y[i],
+        z: points.z[i],
+        mode: "lines+markers",
+        marker: {
+          color: color,
+          size: 12,
+          symbol: "circle",
+          opacity: 0.8
+        },
+        line: {
+          color: color,
+          width: 3
+        },
+        type: "scatter3d"
+      }
+    )
+  }
 
   var layout = {margin: {
       l: 0,
@@ -50,8 +77,7 @@ function createGraph(data) {
 
   var graphOptions = {layout: layout, filename: "simple-3d-scatter", fileopt: "overwrite"};
 
-  plotly.plot(data, graphOptions, function (err, msg) {
+  plotly.plot(traces, graphOptions, function (err, msg) {
       console.log(msg);
   });
 }
-
