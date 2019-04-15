@@ -2,6 +2,10 @@ var express = require('express');
 var app = express();
 var plotly = require('plotly')("jessekuntz", "Pyok8WctFMJyeNFNnyd9");
 const bodyParser = require('body-parser');
+var path = require('path');
+var fs = require('fs');
+
+var graphFile = path.join(__dirname, 'public/graphData.json');
 
 app.use(express.static('public'));
 
@@ -13,18 +17,44 @@ app.use(bodyParser.json());
 
 app.post('/', function (req, res) {
   console.log(req.body);
+
+  // Deep clone
+  let points = JSON.parse(JSON.stringify(req.body));
+
+  // Take all of the 0's out
+  for (let i = 1; i < points.x.length; i++) {
+    if (points.x[i] === 0) {
+      points.x.splice(i, 1);
+      points.y.splice(i, 1);
+      points.z.splice(i, 1);
+    }
+  }
+
+  // Write the manipulated data to 'graphFile'
+  writePointsToFile(points);
+
+  // Create the Plotly graph (with the original data)
   createGraph(req.body);
+});
+
+app.get('/points', (req, res) => {
+    res.sendFile(graphFile);
 });
 
 app.listen(3000, function() {
   console.log('Listening on port 3000');
 });
 
-function createGraph(data) {
+function writePointsToFile(data) {
+  fs.writeFileSync(graphFile, JSON.stringify(data));
+}
+
+async function createGraph(data) {
   var points = {x: [], y: [], z: []};
   var traces = [];
 
-  while(data.x.length > 1) {
+  // Break up the points into different traces
+  while (data.x.length > 1) {
     let xSplice = data.x.splice(0, data.x.indexOf(0, 1));
     let ySplice = data.y.splice(0, data.y.indexOf(0, 1));
     let zSplice = data.z.splice(0, data.z.indexOf(0, 1));
