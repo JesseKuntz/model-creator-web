@@ -32,7 +32,7 @@ exportBtn.click(() => {
 
     var geometry = new THREE.ShapeGeometry(heartShape);
 
-    console.log(geometry)
+    // console.log(geometry)
     // geometry.faces = [geometry.faces[0], geometry.faces[1]];
 
 
@@ -42,6 +42,8 @@ exportBtn.click(() => {
     else if (exportType.val() === "PLY (.ply)") { data = plyExporter.parse(mesh); fileExt = ".ply"; }
     else if (exportType.val() === "GLTF (.gltf)") { data = gltfExporter.parse(mesh); fileExt = ".gltf"; }
     else data = null;
+
+    console.log(data);
 
     // Force download code found from https://davidwalsh.name/javascript-download
     // Create an invisible A element
