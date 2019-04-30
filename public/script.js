@@ -4,6 +4,7 @@ var fileExt = "";
 var points = {};
 var data = null;
 
+// Throw the points into the on-screen text box
 $.get("/points", function(d) {
   $("#points").text(JSON.stringify(d))
 });
@@ -16,25 +17,25 @@ var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 
 exportBtn.click(() => {
   if (exportType.val() !== "Select an export method") {
+    // Parse the points from the on-screen text box
     var points = JSON.parse($("#points").text());
-    // This is where all the points go!
-    var heartShape = new THREE.Shape();
 
-    var x = 0; y = 0;
+    // This is where all the points go!
+    var plotShape = new THREE.Shape();
 
     for (let i = 0; i < points.x.length; i++) {
-      if (i == 0) heartShape.moveTo(points.x[i], points.y[i]);
+      if (i == 0) plotShape.moveTo(points.x[i], points.y[i]);
       else {
-        heartShape.lineTo(points.x[i], points.y[i]);
-        heartShape.moveTo(points.x[i], points.y[i]);
+        plotShape.lineTo(points.x[i], points.y[i]);
+        plotShape.moveTo(points.x[i], points.y[i]);
       }
     }
 
-    var geometry = new THREE.ShapeGeometry(heartShape);
+    var geometry = new THREE.ShapeGeometry(plotShape);
 
+    // Use this to attempt to get a point cloud, not the single face
     // console.log(geometry)
     // geometry.faces = [geometry.faces[0], geometry.faces[1]];
-
 
     var mesh = new THREE.Mesh( geometry, material ) ;
 
@@ -43,9 +44,10 @@ exportBtn.click(() => {
     else if (exportType.val() === "GLTF (.gltf)") { data = gltfExporter.parse(mesh); fileExt = ".gltf"; }
     else data = null;
 
-    console.log(data);
+    // Use this to figure out what is going on with PLY and GLTF
+    // console.log(data);
 
-    // Force download code found from https://davidwalsh.name/javascript-download
+    // Force download code from https://davidwalsh.name/javascript-download
     // Create an invisible A element
     const a = document.createElement("a");
     a.style.display = "none";
