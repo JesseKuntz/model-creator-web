@@ -7,7 +7,9 @@ Web component for the Model Creator system. This was first developed as a senior
 
 ## Get Started
 
-Clone the repo. After it is pulled down, run:
+Clone the repo. Rename the .env-template file as .env, and follow the instructions in the file, filling in your own information in place of the dummy data.
+
+After that, run:
 
 `npm install`
 
