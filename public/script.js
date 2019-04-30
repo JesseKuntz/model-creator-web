@@ -9,6 +9,12 @@ $.get("/points", function(d) {
   $("#points").text(JSON.stringify(d))
 });
 
+$('<iframe>', {
+  src: "//plot.ly/~jessekuntz/7.embed",
+  id:  "graph",
+  class: "embed-responsive-item"
+  }).appendTo('.embed-responsive');
+
 // Setting up three.js and the exporter
 var colladaExporter = new THREE.ColladaExporter();
 var plyExporter = new THREE.PLYExporter();

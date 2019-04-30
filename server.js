@@ -1,9 +1,10 @@
 var express = require('express');
 var app = express();
-var plotly = require('plotly')("jessekuntz", "Pyok8WctFMJyeNFNnyd9");
+var plotly = require('plotly')(process.env.plotlyUsername, process.env.plotlyKey);
 const bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
+require('dotenv').config();
 
 var graphFile = path.join(__dirname, 'public/graphData.json');
 
@@ -41,8 +42,8 @@ app.get('/points', (req, res) => {
     res.sendFile(graphFile);
 });
 
-app.listen(3000, function() {
-  console.log('Listening on port 3000');
+app.listen(process.env.PORT, function() {
+  console.log('Listening on port: ' + process.env.PORT);
 });
 
 function writePointsToFile(data) {
