@@ -1,10 +1,18 @@
+var dotenv = require('dotenv')
+const result = dotenv.config();
+if (result.error) {
+  throw result.error
+}
+
+// console.log(process.env.PLOTLY_USERNAME)
+// console.log(process.env.PLOTLY_KEY)
+
 var express = require('express');
 var app = express();
-var plotly = require('plotly')(process.env.plotlyUsername, process.env.plotlyKey);
+var plotly = require('plotly')(process.env.PLOTLY_USERNAME, process.env.PLOTLY_KEY);
 const bodyParser = require('body-parser');
 var path = require('path');
 var fs = require('fs');
-require('dotenv').config();
 
 var graphFile = path.join(__dirname, 'public/graphData.json');
 
@@ -94,6 +102,11 @@ async function createGraph(data) {
       }
     )
   }
+
+  // Add one extra point to bring it back to home
+  traces[traces.length - 1].x.push(0)
+  traces[traces.length - 1].y.push(0)
+  traces[traces.length - 1].z.push(0)
 
   var layout = {margin: {
       l: 0,
