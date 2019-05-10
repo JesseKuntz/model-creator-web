@@ -34,4 +34,4 @@ After that, visit the site at http://localhost:3000
 
 ## How it Works
 
-When the points are sent from the app, the leftmost box will display the graph from Plotly, but you may need to refresh the page in order for the graph to update. The top-left box gives you the option to choose an exporter (you must do this in order to export), and you can name your file if you want. When you click export, the file will be downloaded, which you can then import into Blender using the Collada importer. Very straightforward!
+When the points are sent from the app, the leftmost box will display the graph from Plotly, but you may need to refresh the page in order for the graph to update. The top-right box gives you the option to choose an exporter (you must do this in order to export), and you can name your file if you want. When you click export, the file will be downloaded, which you can then import into Blender using the Collada importer. Very straightforward!
